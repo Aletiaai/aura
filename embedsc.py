@@ -1,6 +1,7 @@
 import re
 import numpy as np
 import torch
+import pypdf
 from sklearn.metrics.pairwise import cosine_similarity
 from transformers import AutoTokenizer, AutoModel
 
@@ -8,6 +9,14 @@ from transformers import AutoTokenizer, AutoModel
 model_name = "dccuchile/bert-base-spanish-wwm-cased"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModel.from_pretrained(model_name)
+
+def extract_text_from_pdf(pdf_path):
+    text = ""
+    with open(pdf_path, 'rb') as file:
+        pdf_reader = pypdf.PdfReader(file)
+        for page in pdf_reader.pages:
+            text += page.extract_text() + "\n"
+    return text
 
 def chunk_text(text):
     # Split the input text into individual sentences.
@@ -92,6 +101,19 @@ def _calculate_cosine_distances(embeddings):
     return distances
 
 # Main Section
-text = """Your_Input_Text"""
-chunks = chunk_text(text)
-print("Chunks:", chunks)
+if __name__ == "__main__":
+    pdf_path = "path/to/your/pdf/file.pdf"
+    
+    # Step 1: Extract text from PDF
+    full_text = extract_text_from_pdf(pdf_path)
+    
+    # Step 2: Chunk the extracted text
+    chunks = chunk_text(full_text)
+    
+    # Step 3: Process or store the chunks as needed
+    for i, chunk in enumerate(chunks):
+        print(f"Chunk {i+1}:")
+        print(chunk[:100] + "...")  # Print first 100 characters of each chunk
+        print()
+
+    print(f"Total number of chunks: {len(chunks)}")

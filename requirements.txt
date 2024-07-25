@@ -2,3 +2,4 @@ transformers
 torch
 numpy
 scikit-learn
+pypdf
