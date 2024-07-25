@@ -102,7 +102,7 @@ def _calculate_cosine_distances(embeddings):
 
 # Main Section
 if __name__ == "__main__":
-    pdf_path = "path/to/your/pdf/file.pdf"
+    pdf_path = "/Users/marco/Downloads/REGLAMENTO INTERNO PRIVADA GENOVA 2020 def(1).pdf"
     
     # Step 1: Extract text from PDF
     full_text = extract_text_from_pdf(pdf_path)
